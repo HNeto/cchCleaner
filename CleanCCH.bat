@@ -42,7 +42,7 @@ echo.
     echo.
     set /P c=Delete .cch files from .\branches [Y/N]:
     if /I "%c%" EQU "Y" goto :branchDel
-    if /I "%c%" EQU "N" goto :quit
+    if /I "%c%" EQU "N" goto :builder
     goto :branch
 
 :branchDel
@@ -53,6 +53,20 @@ echo.
     echo All .cch files from .\branches are deleted
     echo.
     pause
+    goto :builder
+
+:builder
+    cls
+    for /f "delims=: tokens=*" %%A in ('findstr /b ::: "%~f0"') do @echo(%%A
+    echo.
+    echo.
+    set /P c=Open DF builder [Y/N]:
+    if /I "%c%" EQU "Y" goto :openBuilder
+    if /I "%c%" EQU "N" goto :quit
+    goto :builder
+
+:openBuilder
+    "C:\Program Files (x86)\DataFlex 18.1\Bin\DBBldr.exe" 
     goto :quit
 
 :quit
